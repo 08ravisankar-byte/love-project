@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Do You Love Me?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+</head>
+<body>
+  <div id="particles"></div>
+  <!-- Screen 1 -->
+  <div id="screen1" class="container">
+    <div class="card">
+      <img src="assets/love1.gif" class="gif">
+
+      <h2 id="question">Gomathi, Do you love me? ❤️</h2>
+
+      <div class="buttons">
+        <button id="yesBtn">Yes 😍</button>
+        <button id="noBtn">No 😈</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 2 -->
+  <div id="screen2" class="container hidden">
+    <div class="card">
+      <img src="assets/love2.gif" class="gif">
+      <h2>I knew it 😍</h2>
+      <p class="subtext">You just made my day ❤️</p>
+    </div>
+  </div>
+
+  <!-- Audio -->
+  <audio id="loveSound" src="assets/love.mp3"></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
