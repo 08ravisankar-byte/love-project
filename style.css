@@ -27,6 +27,7 @@ body {
   box-shadow: 0 20px 50px rgba(255, 100, 150, 0.3);
   position: relative;
   animation: floatCard 3s ease-in-out infinite;
+  
 }
 
 .name-box {
@@ -64,6 +65,7 @@ body {
   justify-content: center;
   gap: 20px;
   position: relative;
+  height: 60px; /* 🔥 IMPORTANT: defines movement area */
 }
 
 button {
@@ -81,7 +83,7 @@ button {
 #noBtn {
   position: relative;
   background: #eee;
-  transition: left 0.25s ease, top 0.25s ease;
+  transition: left 0.25s ease;
 }
 
 .heart {

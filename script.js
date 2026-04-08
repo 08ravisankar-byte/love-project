@@ -33,17 +33,9 @@ const nameFromUrl = params.get("name");
 const nameBox = document.querySelector(".name-box");
 
 if (nameFromUrl) {
-  console.log("Name detected:", nameFromUrl);
-
   question.innerText = `Do you love me, ${nameFromUrl}? ❤️`;
-
-  // Hide input
   nameBox.style.display = "none";
   linkBox.style.display = "none";
-
-  // 🔥 IMPORTANT: START FLOATING
-  setTimeout(() => {
-    }, 300);
 }
 
 
@@ -80,46 +72,36 @@ copyBtn.addEventListener("click", () => {
 });
 
 
-
-// 🔓 AUDIO UNLOCK
-let audioUnlocked = false;
-
-
-// 🎯 NO BUTTON MOVE (SAFE INSIDE CARD)
+// 🎯 NO BUTTON MOVE (STRICT INSIDE BOX)
 function moveNoButton() {
-  const card = document.querySelector(".card");
-  const cardRect = card.getBoundingClientRect();
 
-  // FIRST TIME: convert to absolute correctly
+  const container = document.querySelector(".card");
+
   if (!isFloating) {
     const btnRect = noBtn.getBoundingClientRect();
+    const parentRect = container.getBoundingClientRect();
 
     noBtn.style.position = "absolute";
-    noBtn.style.left = (btnRect.left - cardRect.left) + "px";
-    noBtn.style.top = (btnRect.top - cardRect.top) + "px";
+    noBtn.style.left = (btnRect.left - parentRect.left) + "px";
+    noBtn.style.top = (btnRect.top - parentRect.top) + "px";
 
     isFloating = true;
-    return; // 🔴 IMPORTANT: stop here first time
+    return;
   }
 
-  // AFTER FIRST TIME → random movement inside card
-// 🎯 Define safe padding (avoid edges)
-const paddingX = 40;
-const paddingY = 60;
+  // 🔒 SAFE AREA inside white card
+  const padding = 20;
 
-const minX = paddingX;
-const maxX = card.clientWidth - noBtn.offsetWidth - paddingX;
+  const maxX = container.clientWidth - noBtn.offsetWidth - padding;
+  const maxY = container.clientHeight - noBtn.offsetHeight - padding;
 
-const minY = paddingY;
-const maxY = card.clientHeight - noBtn.offsetHeight - paddingY;
-
-// 🎲 Controlled random position
-const x = minX + Math.random() * (maxX - minX);
-const y = minY + Math.random() * (maxY - minY);
+  const x = padding + Math.random() * (maxX - padding);
+  const y = padding + Math.random() * (maxY - padding);
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 
+  // YES scaling
   let scale = Math.min(1 + attempt * 0.12, 2.2);
   yesBtn.style.transform = `scale(${scale})`;
 
@@ -130,25 +112,15 @@ const y = minY + Math.random() * (maxY - minY);
   attempt++;
 }
 
-document.addEventListener("mousemove", (e) => {
-  const rect = noBtn.getBoundingClientRect();
 
-  const distance =
-    Math.abs(e.clientX - rect.left) +
-    Math.abs(e.clientY - rect.top);
-
-  if (distance < 100) {
-    moveNoButton();
-  }
-});
-
+// 👉 TRIGGER MOVEMENT
+noBtn.addEventListener("mouseenter", moveNoButton);
 noBtn.addEventListener("touchstart", moveNoButton);
 
 
 // ❤️ YES CLICK
 yesBtn.addEventListener("click", () => {
 
-    // 🔥 START FLOATING IMMEDIATELY
   if (nameFromUrl) {
     startNameFloating(nameFromUrl);
   }
@@ -161,30 +133,20 @@ yesBtn.addEventListener("click", () => {
     screen2.classList.add("fade-in");
   }, 400);
 
-sound.currentTime = 0;
+  // 🔊 AUDIO (RELIABLE)
+  sound.currentTime = 0;
+  sound.play().catch(() => {});
 
-// Force play using user interaction context
-const playAudio = () => {
-  sound.play().catch(err => {
-    console.log("Audio blocked:", err);
-  });
-};
+  setTimeout(() => {
+    sound.play().catch(() => {});
+  }, 100);
 
-// Try immediately
-playAudio();
-
-// Backup retry (for strict browsers)
-setTimeout(playAudio, 100);
-
+  // 🎉 CONFETTI
   confetti({
     particleCount: 120,
     spread: 70,
     origin: { y: 0.6 }
   });
-
-  if (nameFromUrl) {
-  startNameFloating(nameFromUrl);
-  }
 
   startHearts();
 });
@@ -208,6 +170,30 @@ function startHearts() {
   }, 250);
 
   setTimeout(() => clearInterval(heartsInterval), 10000);
+}
+
+
+// 💕 NAME FLOATING
+function startNameFloating(name) {
+
+  if (window.nameFloatingStarted) return;
+  window.nameFloatingStarted = true;
+
+  const createOne = () => {
+    const el = document.createElement("div");
+    el.className = "name-float";
+    el.innerText = `${name} ❤️`;
+
+    el.style.left = Math.random() * (window.innerWidth - 100) + "px";
+    el.style.fontSize = (18 + Math.random() * 15) + "px";
+
+    document.body.appendChild(el);
+
+    setTimeout(() => el.remove(), 8000);
+  };
+
+  createOne();
+  setInterval(createOne, 900);
 }
 
 
@@ -236,28 +222,3 @@ tsParticles.load("particles", {
     }
   }
 });
-
-function startNameFloating(name) {
-
-  if (window.nameFloatingStarted) return;
-  window.nameFloatingStarted = true;
-
-  const createOne = () => {
-    const el = document.createElement("div");
-    el.className = "name-float";
-    el.innerText = `${name} ❤️`;
-
-    el.style.left = Math.random() * (window.innerWidth - 100) + "px";
-    el.style.fontSize = (18 + Math.random() * 15) + "px";
-
-    document.body.appendChild(el);
-
-    setTimeout(() => el.remove(), 8000);
-  };
-
-  // 🔥 CREATE FIRST ONE IMMEDIATELY
-  createOne();
-
-  // Then continue interval
-  setInterval(createOne, 900);
-}
