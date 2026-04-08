@@ -4,24 +4,44 @@
   <meta charset="UTF-8">
   <title>Do You Love Me?</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
 </head>
+
 <body>
+
+  <!-- Background particles -->
   <div id="particles"></div>
+
   <!-- Screen 1 -->
   <div id="screen1" class="container">
     <div class="card">
+
+      <!-- Name Generator -->
+      <div class="name-box">
+        <input type="text" id="nameInput" placeholder="Enter your name ❤️">
+        <button id="generateBtn">Generate Link 🔗</button>
+      </div>
+
+      <div id="linkBox" class="hidden">
+        <p id="generatedLink"></p>
+        <button id="copyBtn">Copy Link 📋</button>
+      </div>
+
       <img src="assets/love1.gif" class="gif">
 
-      <h2 id="question">Gomathi, Do you love me? ❤️</h2>
+      <h2 id="question">Do you love me? ❤️</h2>
 
       <div class="buttons">
         <button id="yesBtn">Yes 😍</button>
         <button id="noBtn">No 😈</button>
       </div>
+
     </div>
   </div>
 
