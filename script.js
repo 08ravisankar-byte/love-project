@@ -75,7 +75,7 @@ copyBtn.addEventListener("click", () => {
 // 🎯 NO BUTTON MOVE (STRICT INSIDE BOX)
 function moveNoButton() {
 
-  const container = document.querySelector(".card");
+  const container = noBtn.closest(".card");
 
   if (!isFloating) {
     const btnRect = noBtn.getBoundingClientRect();
@@ -97,10 +97,11 @@ const maxX = container.clientWidth - noBtn.offsetWidth - padding;
 const x = padding + Math.random() * (maxX - padding);
 
 // 🔒 Y must be restricted (avoid top GIF + bottom overflow)
-const safeTop = container.clientHeight * 0.55;   // below text
-const safeBottom = container.clientHeight * 0.85; // above edge
+// 🔒 FIXED TOP AREA (stable, no disappearing)
+const topLimit = 120;   // distance from top of card
+const bottomLimit = 260; // max movement height
 
-const y = safeTop + Math.random() * (safeBottom - safeTop);
+const y = topLimit + Math.random() * (bottomLimit - topLimit);
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";

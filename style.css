@@ -64,7 +64,7 @@ body {
   display: flex;
   justify-content: center;
   gap: 20px;
-  position: relative;
+  position: static;
   height: 60px; /* 🔥 IMPORTANT: defines movement area */
 }
 
