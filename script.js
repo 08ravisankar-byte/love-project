@@ -90,13 +90,17 @@ function moveNoButton() {
   }
 
   // 🔒 SAFE AREA inside white card
-  const padding = 20;
+const padding = 20;
 
-  const maxX = container.clientWidth - noBtn.offsetWidth - padding;
-  const maxY = container.clientHeight - noBtn.offsetHeight - padding;
+// 🔒 X can use full width safely
+const maxX = container.clientWidth - noBtn.offsetWidth - padding;
+const x = padding + Math.random() * (maxX - padding);
 
-  const x = padding + Math.random() * (maxX - padding);
-  const y = padding + Math.random() * (maxY - padding);
+// 🔒 Y must be restricted (avoid top GIF + bottom overflow)
+const safeTop = container.clientHeight * 0.55;   // below text
+const safeBottom = container.clientHeight * 0.85; // above edge
+
+const y = safeTop + Math.random() * (safeBottom - safeTop);
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
